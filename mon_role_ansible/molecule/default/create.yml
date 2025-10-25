@@ -1,0 +1,18 @@
+---
+- name: Create
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create molecule instance(s)
+      community.docker.docker_container:
+        name: "{{ item.name }}"
+        image: "{{ item.image }}"
+        state: started
+        command: "{{ item.command | default(omit) }}"
+        privileged: "{{ item.privileged | default(omit) }}"
+        volumes: "{{ item.volumes | default(omit) }}"
+        tmpfs: "{{ item.tmpfs | default(omit) }}"
+        capabilities: "{{ item.capabilities | default(omit) }}"
+        env: "{{ item.environment | default(omit) }}"
+        restart_policy: unless-stopped
+      loop: "{{ molecule_yml.platforms }}"

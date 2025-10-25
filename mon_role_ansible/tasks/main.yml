@@ -1,0 +1,26 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: installer les paquets curl
+  ansible.builtin.apt:
+    name: curl
+    state: present
+    update_cache: true
+
+- name: creer le fichier /tmp/fichier_cree
+  ansible.builtin.file:
+    path: /tmp/fichier_cree
+    state: touch
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: installer le service cron
+  ansible.builtin.apt:
+    name: cron
+    state: present
+
+- name: vérif service cron est actif
+  ansible.builtin.service:
+    name: cron
+    state: started
+    enabled: true
